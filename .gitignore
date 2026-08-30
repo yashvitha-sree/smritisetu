@@ -1,0 +1,34 @@
+# Mac
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+*.egg-info/
+
+# Environment / secrets
+.env
+*.env.local
+
+# SQLite database (don't commit actual data)
+*.db
+*.sqlite
+*.sqlite3
+
+# Node
+node_modules/
+dist/
+.vite/
+
+# Logs
+*.log
+
+# Editor
+.vscode/
+.idea/

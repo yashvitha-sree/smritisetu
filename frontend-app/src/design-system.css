@@ -1,0 +1,809 @@
+/* =============================================================
+   COGNICARE — SHARED DESIGN SYSTEM
+   design-system.css
+   Single source of truth for all CSS tokens, typography,
+   spacing, cards, buttons, sidebar, and dark mode.
+   Imported by: App.css (patient) and caretaker.css (caretaker)
+   ============================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Serif+4:ital,wght@0,600;0,700;1,600&display=swap');
+
+/* ─────────────────────────────────────────────────────────────
+   CSS CUSTOM PROPERTIES — LIGHT MODE
+   ───────────────────────────────────────────────────────────── */
+html {
+  font-size: var(--base-font-size, 17px);
+  -webkit-text-size-adjust: 100%;
+}
+
+:root {
+  /* ── Fonts ── */
+  --ds-font-sans:   'Inter', system-ui, sans-serif;
+  --ds-font-serif:  'Source Serif 4', Georgia, serif;
+  --ds-font-mono:   'Courier New', monospace;
+
+  /* ── Base font size (controlled by A-/A/A+ in header) ── */
+  --base-font-size: 17px;
+  --font-scale: 1;
+
+  /* ── Global backgrounds ── */
+  --ds-bg:          #f0f4f8;
+  --ds-surface:     #ffffff;
+  --ds-surface2:    #f5f8fb;
+  --ds-muted:       #edf1f6;
+
+  /* ── Borders & shadows ── */
+  --ds-border:      #d0dae6;
+  --ds-border2:     #e4ecf4;
+  --ds-shadow-sm:   0 1px 4px rgba(10,30,60,0.07);
+  --ds-shadow:      0 4px 18px rgba(10,30,60,0.10);
+  --ds-shadow-lg:   0 12px 36px rgba(10,30,60,0.14);
+
+  /* ── Text ── */
+  --ds-text:        #0d1f3c;
+  --ds-text2:       #3a5068;
+  --ds-text3:       #6b8299;
+
+  /* ── Government navy & saffron (always) ── */
+  --ds-navy:        #1a3a6e;
+  --ds-navy2:       #0f2347;
+  --ds-saffron:     #e8751a;
+
+  /* ── PATIENT role colour — blue ── */
+  --role-primary:         #1a5eb8;
+  --role-primary-hover:   #144c9c;
+  --role-primary-light:   #e8f0fb;
+  --role-primary-dark:    #0c3878;
+
+  /* ── CARETAKER role colour — green (overridden per-role) ── */
+  /* (caretaker pages load .caretaker-theme which overrides) */
+
+  /* ── Status colours ── */
+  --ds-success:     #1a7a4f;
+  --ds-warning:     #b86010;
+  --ds-error:       #a42020;
+  --ds-info:        #1a5eb8;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   DARK MODE TOKENS
+   ───────────────────────────────────────────────────────────── */
+[data-theme="dark"] {
+  --ds-bg:          #0e1a2b;
+  --ds-surface:     #162236;
+  --ds-surface2:    #1c2d42;
+  --ds-muted:       #1c2d42;
+
+  --ds-border:      #283f5e;
+  --ds-border2:     #1f3352;
+  --ds-shadow-sm:   0 1px 6px rgba(0,0,0,0.3);
+  --ds-shadow:      0 4px 18px rgba(0,0,0,0.4);
+  --ds-shadow-lg:   0 12px 36px rgba(0,0,0,0.55);
+
+  --ds-text:        #dde8f5;
+  --ds-text2:       #8ba8c8;
+  --ds-text3:       #567290;
+
+  --role-primary:        #4d8fd4;
+  --role-primary-hover:  #6aabea;
+  --role-primary-light:  #0d1e36;
+  --role-primary-dark:   #6aabea;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   CARETAKER ROLE OVERRIDE — Green theme
+   Applied via <div class="caretaker-theme"> wrapping caretaker pages
+   ───────────────────────────────────────────────────────────── */
+.caretaker-theme {
+  --role-primary:        #1a7a5e;
+  --role-primary-hover:  #146048;
+  --role-primary-light:  #e8f5f0;
+  --role-primary-dark:   #0f4a38;
+}
+
+[data-theme="dark"] .caretaker-theme {
+  --role-primary:        #3da882;
+  --role-primary-hover:  #52c49a;
+  --role-primary-light:  #0d1e1a;
+  --role-primary-dark:   #52c49a;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   PAGE TRANSITION
+   ───────────────────────────────────────────────────────────── */
+@keyframes ds-page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.ds-page-enter {
+  animation: ds-page-enter 0.3s ease both;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   SHARED APP SHELL & SIDEBAR
+   ───────────────────────────────────────────────────────────── */
+
+.ds-shell {
+  display: flex;
+  min-height: 100vh;
+  background: var(--ds-bg);
+  font-family: var(--ds-font-sans);
+  color: var(--ds-text);
+  transition: background 0.25s, color 0.25s;
+}
+
+/* ── Sidebar ── */
+.ds-sidebar {
+  width: 264px;
+  min-width: 264px;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: var(--ds-surface);
+  border-right: 1px solid var(--ds-border);
+  padding: 28px 16px 24px;
+  transition: background 0.25s, border-color 0.25s;
+  z-index: 20;
+  flex-shrink: 0;
+}
+
+/* Logo */
+.ds-logo {
+  font-family: var(--ds-font-serif);
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--role-primary);
+  margin: 0 0 4px 4px;
+  cursor: pointer;
+  letter-spacing: -0.3px;
+  transition: opacity 0.15s, color 0.25s;
+  display: block;
+}
+.ds-logo:hover { opacity: 0.82; }
+
+/* Role chip */
+.ds-role-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--role-primary-light);
+  color: var(--role-primary);
+  border: 1px solid var(--ds-border);
+  border-radius: 5px;
+  padding: 4px 12px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin: 0 0 24px 4px;
+  transition: background 0.25s, color 0.25s;
+}
+
+/* Nav */
+.ds-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ds-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 13px 16px;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--ds-text2);
+  font-size: 15px;
+  font-weight: 600;
+  font-family: var(--ds-font-sans);
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s, color 0.15s, transform 0.12s;
+}
+
+.ds-nav-item:hover {
+  background: var(--ds-muted);
+  color: var(--ds-text);
+}
+
+.ds-nav-item.ds-active {
+  background: var(--role-primary);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+}
+
+.ds-nav-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Sidebar bottom */
+.ds-sidebar-bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border-top: 1px solid var(--ds-border);
+  padding-top: 16px;
+}
+
+.ds-logout-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 11px 14px;
+  border: 1px solid var(--ds-border);
+  border-radius: 10px;
+  background: transparent;
+  color: var(--ds-text3);
+  font-size: 14px;
+  font-weight: 600;
+  font-family: var(--ds-font-sans);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.ds-logout-btn:hover {
+  background: var(--ds-muted);
+  color: var(--role-primary);
+  border-color: var(--role-primary);
+}
+
+.ds-sidebar-note {
+  font-size: 12px;
+  color: var(--ds-text3);
+  line-height: 1.5;
+  margin: 0;
+  font-style: italic;
+  padding: 0 4px;
+}
+
+/* ── Main content area ── */
+.ds-main {
+  flex: 1;
+  min-width: 0;
+  padding: 44px 52px;
+  overflow-y: auto;
+  transition: background 0.25s;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   PAGE HEADER
+   ───────────────────────────────────────────────────────────── */
+
+.ds-page-eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--role-primary);
+  margin: 0 0 8px;
+}
+
+.ds-page-title {
+  font-family: var(--ds-font-serif);
+  font-size: 34px;
+  font-weight: 700;
+  color: var(--ds-text);
+  margin: 0 0 8px;
+  line-height: 1.2;
+}
+
+.ds-page-sub {
+  font-size: 16px;
+  color: var(--ds-text2);
+  margin: 0;
+  line-height: 1.6;
+}
+
+.ds-page-header {
+  margin-bottom: 36px;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   CARDS
+   ───────────────────────────────────────────────────────────── */
+
+.ds-card {
+  background: var(--ds-surface);
+  border: 1px solid var(--ds-border);
+  border-radius: 14px;
+  padding: 24px;
+  box-shadow: var(--ds-shadow-sm);
+  transition: background 0.25s, border-color 0.25s, box-shadow 0.22s;
+}
+
+.ds-card-accent {
+  border-top: 3px solid var(--role-primary);
+}
+
+.ds-card:hover {
+  box-shadow: var(--ds-shadow);
+}
+
+/* Action cards (clickable) */
+.ds-action-card {
+  background: var(--ds-surface);
+  border: 1px solid var(--ds-border);
+  border-radius: 14px;
+  padding: 26px 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--ds-font-sans);
+  color: var(--ds-text);
+  transition: transform 0.18s, box-shadow 0.18s, border-color 0.18s;
+  box-shadow: var(--ds-shadow-sm);
+  border-top: 3px solid var(--role-primary);
+}
+
+.ds-action-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--ds-shadow);
+  border-color: var(--role-primary);
+}
+
+.ds-action-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: var(--role-primary-light);
+  color: var(--role-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+  transition: background 0.25s;
+}
+
+.ds-action-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--ds-text);
+  margin: 0 0 4px;
+}
+
+.ds-action-desc {
+  font-size: 14px;
+  color: var(--ds-text2);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   STATS / PROGRESS GRID
+   ───────────────────────────────────────────────────────────── */
+
+.ds-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 18px;
+}
+
+.ds-stat-card {
+  background: var(--ds-surface);
+  border: 1px solid var(--ds-border);
+  border-top: 3px solid var(--role-primary);
+  border-radius: 12px;
+  padding: 20px 18px;
+  transition: background 0.25s;
+}
+
+.ds-stat-value {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--role-primary);
+  margin: 0 0 4px;
+  font-family: var(--ds-font-serif);
+  transition: color 0.25s;
+}
+
+.ds-stat-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ds-text3);
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   PROGRESS BAR
+   ───────────────────────────────────────────────────────────── */
+
+.ds-progress-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--ds-border2);
+}
+.ds-progress-row:last-child { border-bottom: none; }
+
+.ds-progress-label {
+  width: 180px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ds-text);
+  flex-shrink: 0;
+}
+
+.ds-progress-track {
+  flex: 1;
+  height: 10px;
+  background: var(--ds-muted);
+  border-radius: 30px;
+  overflow: hidden;
+}
+
+.ds-progress-fill {
+  height: 100%;
+  border-radius: 30px;
+  background: var(--role-primary);
+  transition: width 0.9s ease, background 0.25s;
+}
+
+.ds-progress-pct {
+  width: 40px;
+  text-align: right;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ds-text3);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   BUTTONS
+   ───────────────────────────────────────────────────────────── */
+
+.ds-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 26px;
+  background: var(--role-primary);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 700;
+  font-family: var(--ds-font-sans);
+  cursor: pointer;
+  min-height: 50px;
+  transition: background 0.18s, transform 0.16s, box-shadow 0.16s;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+}
+
+.ds-btn-primary:hover {
+  background: var(--role-primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+}
+
+.ds-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 22px;
+  background: transparent;
+  color: var(--role-primary);
+  border: 1.5px solid var(--role-primary);
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: var(--ds-font-sans);
+  cursor: pointer;
+  min-height: 46px;
+  transition: background 0.18s, color 0.18s;
+}
+
+.ds-btn-secondary:hover {
+  background: var(--role-primary-light);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   BADGE / CHIP
+   ───────────────────────────────────────────────────────────── */
+
+.ds-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 12px;
+  border-radius: 5px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.ds-badge-primary {
+  background: var(--role-primary-light);
+  color: var(--role-primary);
+  border: 1px solid var(--ds-border);
+}
+
+.ds-badge-success {
+  background: #e8f5ee;
+  color: #1a7a4f;
+}
+
+.ds-badge-warning {
+  background: #fef3e6;
+  color: #b86010;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   GAME CARD
+   ───────────────────────────────────────────────────────────── */
+
+.ds-game-card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  padding: 22px 24px;
+  background: var(--ds-surface);
+  border: 1px solid var(--ds-border);
+  border-radius: 14px;
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--ds-font-sans);
+  color: var(--ds-text);
+  transition: transform 0.18s, box-shadow 0.18s, border-color 0.18s;
+  box-shadow: var(--ds-shadow-sm);
+}
+
+.ds-game-card:hover {
+  transform: translateX(4px);
+  box-shadow: var(--ds-shadow);
+  border-color: var(--role-primary);
+}
+
+.ds-game-icon-box {
+  width: 60px;
+  height: 60px;
+  border-radius: 14px;
+  background: var(--role-primary-light);
+  color: var(--role-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.25s;
+}
+
+.ds-game-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0 0 4px;
+  color: var(--ds-text);
+}
+
+.ds-game-desc {
+  font-size: 14px;
+  color: var(--ds-text2);
+  margin: 0 0 5px;
+}
+
+.ds-game-focus {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--role-primary);
+  transition: color 0.25s;
+}
+
+.ds-game-arrow {
+  margin-left: auto;
+  color: var(--ds-text3);
+  flex-shrink: 0;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   REMINDER ROW
+   ───────────────────────────────────────────────────────────── */
+
+.ds-reminder-row {
+  display: grid;
+  grid-template-columns: 56px 1fr auto;
+  align-items: center;
+  gap: 0;
+  background: var(--ds-surface);
+  border: 1px solid var(--ds-border);
+  border-radius: 12px;
+  overflow: hidden;
+  min-height: 76px;
+  box-shadow: var(--ds-shadow-sm);
+  transition: box-shadow 0.18s;
+}
+
+.ds-reminder-row:hover { box-shadow: var(--ds-shadow); }
+
+.ds-rem-icon {
+  background: var(--ds-muted);
+  border-right: 1px solid var(--ds-border);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  color: var(--role-primary);
+}
+
+.ds-rem-body {
+  padding: 12px 16px;
+  min-width: 0;
+}
+
+.ds-rem-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ds-text);
+  margin: 0 0 2px;
+}
+
+.ds-rem-time {
+  font-size: 13px;
+  color: var(--ds-text3);
+  margin: 0;
+}
+
+.ds-rem-actions {
+  padding: 10px 12px;
+  border-left: 1px solid var(--ds-border);
+  background: var(--ds-surface2);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   ALERT / INFO BOX
+   ───────────────────────────────────────────────────────────── */
+
+.ds-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px 20px;
+  border-radius: 10px;
+  font-size: 15px;
+  line-height: 1.6;
+  border: 1px solid transparent;
+}
+
+.ds-alert-info {
+  background: var(--role-primary-light);
+  border-color: var(--ds-border);
+  color: var(--ds-text);
+}
+
+.ds-alert-warning {
+  background: #fef3e6;
+  border-color: #f5c58c;
+  color: #5a3008;
+}
+
+.ds-alert p { margin: 0; }
+
+/* ─────────────────────────────────────────────────────────────
+   SECTION HEADER
+   ───────────────────────────────────────────────────────────── */
+
+.ds-section {
+  margin-bottom: 36px;
+}
+
+.ds-section-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ds-text);
+  margin: 0 0 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ds-section-title::before {
+  content: '';
+  display: inline-block;
+  width: 3px;
+  height: 18px;
+  background: var(--role-primary);
+  border-radius: 2px;
+  transition: background 0.25s;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   SECTION ACTIONS GRID (2x2 quick actions)
+   ───────────────────────────────────────────────────────────── */
+
+.ds-actions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 18px;
+  margin-bottom: 36px;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   SUGGESTED ACTIVITY CARD
+   ───────────────────────────────────────────────────────────── */
+
+.ds-suggested {
+  background: var(--role-primary-light);
+  border: 1px solid var(--ds-border);
+  border-left: 4px solid var(--role-primary);
+  border-radius: 14px;
+  padding: 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+  transition: background 0.25s;
+}
+
+.ds-suggested-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--role-primary);
+  margin: 0 0 8px;
+  transition: color 0.25s;
+}
+
+.ds-suggested h3 {
+  font-family: var(--ds-font-serif);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--ds-text);
+  margin: 0 0 6px;
+}
+
+.ds-suggested p {
+  font-size: 15px;
+  color: var(--ds-text2);
+  margin: 0;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   RESPONSIVE
+   ───────────────────────────────────────────────────────────── */
+
+@media (max-width: 1024px) {
+  .ds-main { padding: 36px 32px; }
+  .ds-actions-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 860px) {
+  .ds-sidebar { display: none; }
+  .ds-main { padding: 28px 20px 100px; }
+  .ds-page-title { font-size: 26px; }
+  .ds-actions-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 540px) {
+  .ds-main { padding: 22px 14px 100px; }
+  .ds-actions-grid { grid-template-columns: 1fr; }
+  .ds-stats-grid { grid-template-columns: 1fr 1fr; }
+}
