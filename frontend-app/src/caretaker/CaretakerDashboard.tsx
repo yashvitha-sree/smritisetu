@@ -264,7 +264,7 @@ export default function CaretakerDashboard() {
       {/* ── PATIENT SUMMARY CARD ── */}
       <div className="ds-section">
         <h2 className="ds-section-title">{t("patientProfileTitle")}</h2>
-        <div className="ds-card" style={{ display: "flex", alignItems: "center", justifyBetween: "space-between", flexWrap: "wrap", gap: 20 }}>
+        <div className="ds-card" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 20 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
             <div style={{ width: 56, height: 56, borderRadius: "50%", background: "var(--role-primary)", color: "#fff",
               display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24, fontWeight: 700 }}>

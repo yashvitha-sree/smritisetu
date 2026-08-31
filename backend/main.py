@@ -57,20 +57,26 @@ app = FastAPI(
 # CORS — Allow frontend to talk to backend
 # ═══════════════════════════════════════════════════════════════
 
-# Read allowed origins from environment variable, or use defaults
-allowed_origins_env = os.getenv(
-    "ALLOWED_ORIGINS",
-    "http://localhost:5173,http://127.0.0.1:5173,http://localhost:5500,http://127.0.0.1:5500"
-)
-allowed_origins = [origin.strip() for origin in allowed_origins_env.split(",")]
+# Read allowed origins from environment variable, or default to "*"
+allowed_origins_env = os.getenv("ALLOWED_ORIGINS", "*")
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=allowed_origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+if allowed_origins_env.strip() == "*":
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_credentials=False,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+else:
+    allowed_origins = [origin.strip() for origin in allowed_origins_env.split(",")]
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=allowed_origins,
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
 
 # ═══════════════════════════════════════════════════════════════
 # STARTUP — Initialize database when app starts

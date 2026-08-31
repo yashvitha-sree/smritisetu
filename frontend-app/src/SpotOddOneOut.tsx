@@ -90,7 +90,7 @@ export default function SpotOddOneOut() {
   const [correct, setCorrect] = useState(0);
   const [wrong, setWrong] = useState(0);
   const [startTime, setStartTime] = useState(0);
-  const [totalTime, setTotalTime] = useState(0);
+  const [, setTotalTime] = useState(0);
   const [seconds, setSeconds] = useState(0);
   const [message, setMessage] = useState("");
 

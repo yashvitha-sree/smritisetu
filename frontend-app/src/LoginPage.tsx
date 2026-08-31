@@ -149,8 +149,7 @@ function AshokChakra() {
 // Types
 // ─────────────────────────────────────────────────────────────
 
-type FontSize = "small" | "normal" | "large";
-type Theme    = "light" | "dark";
+type Theme = "light" | "dark";
 
 // ─────────────────────────────────────────────────────────────
 // Offline hook
